@@ -20,7 +20,6 @@ class TransformerLM(nn.Module):
         for layer in self.layers:
             outputs = layer(outputs)
         # outputs = [batch size, sentence length, hidden dim]
-        print(f'After layer: {outputs.shape}')
 
         # outputs = [batch size, sentence length, output dim]
         return outputs

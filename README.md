@@ -6,7 +6,7 @@
 
 - To train model, run following code snippet
 
-```python
+```bash
 python main.py \
     --mode train
     --max_len      MAX_LEN
@@ -26,6 +26,7 @@ python main.py \
 
 - [ ] Implement Language Modeling logic
 - [ ] Implement batchify logic
+- [ ] Implement custom optimizer
 
 ## References
 
