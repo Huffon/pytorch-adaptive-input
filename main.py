@@ -22,6 +22,7 @@ def main(params):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', type=str, default='train', choices=['train', 'test'])
+    parser.add_argument('--save_dir', type=str, default='model.pt')
     
     # hyper params: training
     parser.add_argument('--max_len', type=int, default=512)
@@ -41,7 +42,7 @@ if __name__ == "__main__":
 
     # Add pre-built vocab size to params
     # vocab = json.load(open('vocab.json'))
-    parser.add_argument('--vocab_size', type=int, default=80000)
+    parser.add_argument('--vocab_size', type=int, default=60000)
 
     args = parser.parse_args()
 

@@ -9,6 +9,7 @@
 ```bash
 python main.py \
     --mode train
+    --save_dir     SAVE_DIR
     --max_len      MAX_LEN
     --num_epoch    NUM_EPOCH
     --batch_size   BATCH_SIZE
@@ -24,11 +25,15 @@ python main.py \
 
 ## TODO
 
-- [ ] Implement Language Modeling logic
-- [ ] Implement batchify logic
-- [ ] Implement custom optimizer
+- [x] Implement **Language Modeling** logic
+- [ ] Implement `Vocabulary` class with **special tokens**
+- [ ] Implement `batchify` logic using `Vocabulary`
+- [ ] Replace Softmax layer with `AdaptiveSoftmax`
+- [ ] Implement Custom optimizer
+- [ ] Experiment with **WikiText-103**
 
 ## References
 
 - [Official implementation of Adaptive Input](https://github.com/pytorch/fairseq/blob/fb76dac1c4e314db75f9d7a03cb4871c532000cb/fairseq/modules/adaptive_input.py#L13)
 - [Fairseq's Transformer LM](https://github.com/pytorch/fairseq/blob/master/fairseq/models/transformer_lm.py)
+- [Hugging Face's Open AI Transformer LM](https://github.com/huggingface/pytorch-openai-transformer-lm)
