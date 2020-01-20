@@ -65,7 +65,7 @@ if __name__ == "__main__":
     parser.add_argument('--min_frequency', type=int, default=3)
     parser.add_argument('--max_len', type=int, default=512)
     parser.add_argument('--corpus', type=str, default='data/wiki.txt')
-    parser.add_argument('--output', type=str, default='data/processed_wiki.txt')
+    parser.add_argument('--output', type=str, default='data/train.txt')
     parser.add_argument('--vocab', type=str, default='vocab.txt')
     args = parser.parse_args()
     

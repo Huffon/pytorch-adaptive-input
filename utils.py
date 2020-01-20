@@ -1,4 +1,7 @@
-def build_iter(mode: str):
+from torch.utils import data
+
+
+def build_iter(mode: str, batch_size: int):
     """
     Build iterator corresponding to each mode
     
@@ -9,10 +12,23 @@ def build_iter(mode: str):
         (DataLoader)
     """
 
-    if mode == 'train'
+    if mode == 'train':
+        train_data = open('data/train.txt', 'r', encoding='utf-8')
+        train_iter = data.DataLoader(train_data, batch_size=batch_size, 
+                                                 shuffle=True,
+                                                 num_workers=4)
+        
+        valid_data = open('data/valid.txt', 'r', encoding='utf-8')
+        valid_iter = data.DataLoader(valid_data, batch_size=batch_size, 
+                                                 shuffle=True,
+                                                 num_workers=4)
         return train_iter, valid_iter
 
     else:
+        test_data = open('data/test.txt', 'r', encoding='utf-8')
+        test_iter = data.DataLoader(test_data, batch_size=batch_size, 
+                                                shuffle=True,
+                                                num_workers=4)
         return test_iter
 
 
@@ -64,8 +80,12 @@ class Vocabulary:
         " Encode word sentence into index sentence "
         encoded = [self.word2idx['<sos>']] + \
                   [self.word2idx[word] if word in self.word2idx 
-                                       else self.word2idx['<unk>'] for word in x] + \
-                  [self.word2idx['<eos>']]
+                                       else self.word2idx['<unk>'] for word in x]
+
+        if len(encoded) >= self.max_len:
+            encoded = encoded[:self.max_len-1]
+        
+        encoded += [self.word2idx['<eos>']]
 
         if len(encoded) < self.max_len:
             encoded = self.zero_pad(encoded)

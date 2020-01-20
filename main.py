@@ -3,17 +3,20 @@ import argparse
 import torch
 
 from trainer import Trainer
+from utils import build_iter
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def main(params):
     if params.mode == 'train':
+        train_iter, valid_iter = build_iter(params.mode, params.batch_size)
         train_iter = [torch.randint(50001, (4, 10)).to(params.device)]
         valid_iter = [torch.randint(50000, (4, 10)).to(params.device)]
         trainer = Trainer(params, train_iter=train_iter, valid_iter=valid_iter)
         trainer.train()
     else:
+        test_iter = build_iter(params.mode, params.batch_size)
         test_iter = [torch.randint(40000, (4, 10)).to(params.device)]
         trainer = Trainer(params, test_iter=test_iter)
         trainer.test()
