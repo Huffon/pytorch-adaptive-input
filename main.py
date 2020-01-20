@@ -9,12 +9,12 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def main(params):
     if params.mode == 'train':
-        train_iter = [torch.randint(20000, 20001, (4, 10)).to(params.device)]
-        valid_iter = [torch.randint(15000, 80000, (4, 10)).to(params.device)]
+        train_iter = [torch.randint(50001, (4, 10)).to(params.device)]
+        valid_iter = [torch.randint(50000, (4, 10)).to(params.device)]
         trainer = Trainer(params, train_iter=train_iter, valid_iter=valid_iter)
         trainer.train()
     else:
-        test_iter = [torch.randint(15000, 40000, (4, 10)).to(params.device)]
+        test_iter = [torch.randint(40000, (4, 10)).to(params.device)]
         trainer = Trainer(params, test_iter=test_iter)
         trainer.test()
 

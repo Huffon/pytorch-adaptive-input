@@ -4,6 +4,17 @@
 
 ## Usage
 
+- To build vocabulary and processed corpus, run following code snippet
+
+```bash
+python preprocess.py \
+    --min_frequency   MIN_FREQUENCY
+    --max_len         MAX_LEN
+    --corpus          CORPUS
+    --output          OUTPUT
+    --vocab           VOCAB
+```
+
 - To train model, run following code snippet
 
 ```bash
@@ -23,14 +34,18 @@ python main.py \
     --num_heads    NUM_HEADS
 ```
 
+<br>
+
 ## TODO
 
 - [x] Implement **Language Modeling** logic
-- [ ] Implement `Vocabulary` class with **special tokens**
+- [x] Implement `Vocabulary` class with **special tokens**
 - [ ] Implement `batchify` logic using `Vocabulary`
 - [ ] Replace Softmax layer with `AdaptiveSoftmax`
 - [ ] Implement Custom optimizer
 - [ ] Experiment with **WikiText-103**
+
+<br>
 
 ## References
 
