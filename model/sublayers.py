@@ -8,9 +8,9 @@ class MultiHeadAttention(nn.Module):
     """
     def __init__(self, params):
         super(MultiHeadAttention, self).__init__()
-        assert params.hidden_dim % params.num_heads == 0, "hidden_dim must be divisible by num_heads"
+        assert params.hidden_dim % params.num_heads == 0, "hidden dimension must be divisible by the number of heads"
         self.num_heads = params.num_heads
-        self.attn_dim = params.hidden_dim // params.num_heads
+        self.attn_dim = params.hidden_dim // self.num_heads
 
         self.q_w = nn.Linear(params.hidden_dim, self.num_heads * self.attn_dim)
         self.k_w = nn.Linear(params.hidden_dim, self.num_heads * self.attn_dim)
@@ -26,10 +26,11 @@ class MultiHeadAttention(nn.Module):
 
         batch_size = q.size(0)
 
+        # Split hidden dimension into (num heads * attention dimension)
         q = self.q_w(q).view(batch_size, -1, self.num_heads, self.attn_dim).transpose(1, 2)
         k = self.k_w(k).view(batch_size, -1, self.num_heads, self.attn_dim).transpose(1, 2)
         v = self.v_w(v).view(batch_size, -1, self.num_heads, self.attn_dim).transpose(1, 2)
-        # q, k, v = [batch size, num heads, sentence length, attn dim]: hidden dim -> num heads x attn dim
+        # q, k, v = [batch size, num heads, sentence length, attn dim]
 
         attn = torch.matmul(q, k.transpose(-1, -2)) / self.scale_factor
         # attn   = [batch size, num heads, sentence length, sentence length]

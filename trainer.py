@@ -21,12 +21,13 @@ class Trainer:
         self.model = TransformerLM(self.params)
         self.model.to(params.device)
         
-        self.optimizer = optim.Adam(self.model.parameters())
+        self.optimizer = optim.SGD(self.model.parameters(), lr=0.001, momentum=0.99)
 
         self.criterion = nn.CrossEntropyLoss(ignore_index=0)
         self.criterion.to(params.device)
 
     def train(self):
+        " Train model using train dataset "
         print(f'The model has {self.model.count_params():,} parameters')
         best_valid_loss = float('inf')
 
@@ -36,6 +37,7 @@ class Trainer:
             start_time = time.time()
 
             for input_ids in self.train_iter:
+                self.optimizer.zero_grad()
                 input_ids = input_ids.to(self.params.device)
                 output = self.model(input_ids[:, :-1])
  
@@ -47,6 +49,7 @@ class Trainer:
                 loss = self.criterion(preds, golds)
                 loss.backward()
 
+                torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.params.clip)
                 self.optimizer.step()
                 
                 train_loss += loss.item()
@@ -65,6 +68,7 @@ class Trainer:
             print(f'\tTrain Loss: {train_loss:.3f} | Val. Loss: {valid_loss:.3f}')
 
     def validate(self):
+        " Validate model using validation dataset "
         self.model.eval()
         valid_loss = 0
 
@@ -82,6 +86,7 @@ class Trainer:
         return valid_loss / len(self.valid_iter)
 
     def test(self):
+        " Test model using test dataset "
         self.model.load_state_dict(torch.load(self.params.save_dir))
         self.model.eval()
         test_loss = 0
