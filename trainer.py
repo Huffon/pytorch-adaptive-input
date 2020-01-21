@@ -28,7 +28,6 @@ class Trainer:
 
     def train(self):
         print(f'The model has {self.model.count_params():,} parameters')
-        print(f'Original has {246900000:,} parameters')
         best_valid_loss = float('inf')
 
         for epoch in range(self.params.num_epoch):
@@ -37,6 +36,7 @@ class Trainer:
             start_time = time.time()
 
             for input_ids in self.train_iter:
+                input_ids = input_ids.to(self.params.device)
                 output = self.model(input_ids[:, :-1])
  
                 preds = output.contiguous().view(-1, output.size(-1))
@@ -70,6 +70,7 @@ class Trainer:
 
         with torch.no_grad():
             for input_ids in self.valid_iter:
+                input_ids = input_ids.to(self.params.device)
                 output = self.model(input_ids[:, :-1])
  
                 preds = output.contiguous().view(-1, output.size(-1))
@@ -87,6 +88,7 @@ class Trainer:
 
         with torch.no_grad():
             for input_ids in self.test_iter:
+                input_ids = input_ids.to(self.params.device)
                 output = self.model(input_ids[:, :-1])
 
                 preds = output.contiguous().view(-1, output.size(-1))

@@ -12,7 +12,7 @@ def process_corpus(lines: List[str], vocab: Vocabulary, f_output: str):
     Calculate the time spent during one epoch
     
     Args:
-        lines       (list): dd
+        lines       (list): List of string which contains line of corpus
         vocab (Vocabulary): Vocabulary class instantiated using 'vocab' file
         f_output   (float): Text file to store processed corpus
     
@@ -54,7 +54,7 @@ def build_vocab(f_corpus: str, f_vocab: str, min_frequency: int, max_len: int):
     
     with open(f_vocab, 'w', encoding='utf-8') as f:
         for word in vocab:
-            if word[1] > min_frequency:
+            if word[1] >= min_frequency:
                 print(f'{word[0]}\t{word[1]}', file=f)
 
     return lines, Vocabulary(f_vocab, max_len)

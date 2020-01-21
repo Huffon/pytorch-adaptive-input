@@ -1,3 +1,4 @@
+import torch
 from torch.utils import data
 
 
@@ -13,22 +14,25 @@ def build_iter(mode: str, batch_size: int):
     """
 
     if mode == 'train':
-        train_data = open('data/train.txt', 'r', encoding='utf-8')
+        f_train = open('data/train.txt', 'r', encoding='utf-8')
+        train_data = [torch.LongTensor(eval(line.replace('\n', ''))) for line in f_train.readlines()]
         train_iter = data.DataLoader(train_data, batch_size=batch_size, 
                                                  shuffle=True,
                                                  num_workers=4)
         
-        valid_data = open('data/valid.txt', 'r', encoding='utf-8')
+        f_valid = open('data/valid.txt', 'r', encoding='utf-8')
+        valid_data = [torch.LongTensor(eval(line.replace('\n', ''))) for line in f_valid.readlines()]
         valid_iter = data.DataLoader(valid_data, batch_size=batch_size, 
                                                  shuffle=True,
                                                  num_workers=4)
         return train_iter, valid_iter
 
     else:
-        test_data = open('data/test.txt', 'r', encoding='utf-8')
+        f_test = open('data/test.txt', 'r', encoding='utf-8')
+        test_data = [torch.LongTensor(eval(line.replace('\n', ''))) for line in f_test.readlines()]
         test_iter = data.DataLoader(test_data, batch_size=batch_size, 
-                                                shuffle=True,
-                                                num_workers=4)
+                                               shuffle=True,
+                                               num_workers=4)
         return test_iter
 
 
@@ -96,3 +100,19 @@ class Vocabulary:
         n_pad = self.max_len - len(x)
         x.extend([0] * n_pad)
         return x
+
+    def get_pad(self):
+        " Return the index of <pad> token "
+        return self.word2idx['<pad>']
+
+    def get_sos(self):
+        " Return the index of <sos> token "
+        return self.word2idx['<sos>']
+
+    def get_eos(self):
+        " Return the index of <eos> token "
+        return self.word2idx['<eos>']
+
+    def get_unk(self):
+        " Return the index of <unk> token "
+        return self.word2idx['<unk>']

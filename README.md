@@ -4,7 +4,7 @@
 
 ## Usage
 
-- To build vocabulary and processed corpus, run following code snippet
+- To build **vocabulary** and **processed corpus**, run following code snippet
 
 ```bash
 python preprocess.py \
@@ -15,7 +15,7 @@ python preprocess.py \
     --vocab           VOCAB
 ```
 
-- To train model, run following code snippet
+- To **train** model, run following code snippet
 
 ```bash
 python main.py \
@@ -40,7 +40,7 @@ python main.py \
 
 - [x] Implement **Language Modeling** logic
 - [x] Implement `Vocabulary` class with **special tokens**
-- [ ] Implement `batchify` logic using `Vocabulary`
+- [x] Implement `batchify` logic using `Vocabulary`
 - [ ] Replace Softmax layer with `AdaptiveSoftmax`
 - [ ] Implement Custom optimizer
 - [ ] Experiment with **WikiText-103**
